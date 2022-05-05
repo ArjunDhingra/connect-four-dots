@@ -1,35 +1,20 @@
-on:
-  push
-
-name: Test comment
-
 jobs:
-  test-comment:
-    name: Comment
+  build:
     runs-on: ubuntu-latest
+    name: Test Comment
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-
     - name: Login
-      uses: ArjunDhingra/connect-four-dots@master
+      uses: atlassian/gajira-login@master
       env:
-        JIRA_BASE_URL: dhingra-arjun.atlassian.net
-        JIRA_USER_EMAIL: arjundhingra29@gmail.com
-        JIRA_API_TOKEN: i8eZBIteRJjokcriiAhAF435
-
-    - name: Create new issue
-      id: create
-      uses: ArjunDhingra/connect-four-dots@master
+          JIRA_BASE_URL: https://dhingra-arjun.atlassian.net
+          JIRA_USER_EMAIL: arjundhingra29@gmail.com
+          JIRA_API_TOKEN: i8eZBIteRJjokcriiAhAF435
+    - name: Jira Add Comment
+      # You may pin to the exact commit or the version.
+      # uses: atlassian/gajira-comment@8ec356b5df49f1325653db7ee2da2b59a1d78203
+      uses: atlassian/gajira-comment@v2.0.2
       with:
-        project: GA
-        issuetype: Build
-        summary: |
-          Issue for comment ${{ github.repository }}
-        description: |
-          Compare branch|${{ github.event.compare }} # https://developer.github.com/v3/activity/events/types/#webhook-payload-example-31
-    - name: Comment on issue
-      uses: ./
-      with:
-        issue: ${{ steps.create.outputs.issue }}
-        comment: Test comment ${{ github.event.compare }}
+        # Key of the issue to be commented on
+        issue: TEST-6
+        # Comment
+        comment:   comment via github
